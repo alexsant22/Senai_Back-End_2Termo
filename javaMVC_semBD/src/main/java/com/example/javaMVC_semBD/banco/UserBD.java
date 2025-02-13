@@ -35,7 +35,7 @@ public class UserBD {
     // Update usuário
     public boolean upadate(Long id, User user) {
         User userBd = users.stream()
-                .filter(u -> u.getId() == id)
+                .filter(userFilter -> userFilter.getId() == id)
                 .findFirst()
                 .orElse(null);
 
