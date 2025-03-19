@@ -1,2 +1,4 @@
-package com.example.ExercJPA.Controller;public class UserController {
+package com.example.ExercJPA.Controller;
+
+public class UserController {
 }
