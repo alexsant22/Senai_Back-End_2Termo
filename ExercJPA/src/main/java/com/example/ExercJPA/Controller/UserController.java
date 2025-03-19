@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -35,6 +34,21 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(users);
+    }
+
+    @GetMapping("/busca")
+    public ResponseEntity<List<User>> getByNameAndCargo(
+            @RequestParam(required = true) String nome,
+            @RequestParam(required = true) String cargo
+    ) {
+        List<User> usersNameAndCargo = userRepository.findByNomeAndCargo(nome, cargo);
+
+        if (usersNameAndCargo.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .build();
+        }
+        return  ResponseEntity.status(HttpStatus.OK)
+                .body(usersNameAndCargo);
     }
 
     @GetMapping("/{id}")
