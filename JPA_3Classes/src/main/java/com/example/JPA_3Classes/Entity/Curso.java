@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -25,4 +27,8 @@ public class Curso {
     @JoinColumn(name = "idProfessor", referencedColumnName = "idProfessor")
     @JsonManagedReference
     private Professor professor; // Obj Professor
+
+    // Relacionamento com Aluno
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL)
+    private List<Aluno> alunoList;
 }
