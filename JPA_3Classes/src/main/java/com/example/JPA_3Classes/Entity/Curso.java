@@ -25,10 +25,10 @@ public class Curso {
     @OneToOne() // 1 para 1
     // Criando coluna 'idProfessor' com referencia ao atributo 'idProfessor'
     @JoinColumn(name = "idProfessor", referencedColumnName = "idProfessor")
-    @JsonManagedReference
     private Professor professor; // Obj Professor
 
     // Relacionamento com Aluno
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Aluno> alunoList;
 }
