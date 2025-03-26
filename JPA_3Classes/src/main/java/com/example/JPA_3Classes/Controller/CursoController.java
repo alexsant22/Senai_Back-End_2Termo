@@ -15,14 +15,14 @@ public class CursoController {
     @Autowired
     private CursoRepository cursoRepository;
 
-    @PostMapping("/cursoAdd")
+    @PostMapping("/adicionar")
     public ResponseEntity<Curso> create(@RequestBody Curso curso) {
         Curso cursoBd = cursoRepository.save(curso);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(cursoBd);
     }
 
-    @GetMapping("/cursosFind")
+    @GetMapping("/buscar")
     public ResponseEntity<List<Curso>> getAll() {
         List<Curso> cursoList = cursoRepository.findAll();
 
