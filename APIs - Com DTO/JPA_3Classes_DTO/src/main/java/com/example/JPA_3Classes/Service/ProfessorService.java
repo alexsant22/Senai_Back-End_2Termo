@@ -4,7 +4,9 @@ import com.example.JPA_3Classes.DTO.ProfessorDTO;
 import com.example.JPA_3Classes.Entity.Professor;
 import com.example.JPA_3Classes.Repository.ProfessorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ProfessorService {
     @Autowired
     private ProfessorRepository professorRepository;
