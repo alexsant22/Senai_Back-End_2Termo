@@ -20,7 +20,7 @@ public class Professor {
     private String cpf;
 
     // Relacionamento de tabelas
-    @OneToOne(mappedBy = "professor")
+    @OneToOne(mappedBy = "professor", cascade = CascadeType.ALL)
     @JsonIgnore  // Ignora o campo 'curso' durante a serialização
     private Curso curso;
 }
