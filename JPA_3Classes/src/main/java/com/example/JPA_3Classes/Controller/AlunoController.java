@@ -15,14 +15,14 @@ public class AlunoController {
     @Autowired
     private AlunoRepository alunoRepository;
 
-    @PostMapping("/alunoAdd")
+    @PostMapping("/adicionar")
     public ResponseEntity<Aluno> create(@RequestBody Aluno aluno) {
         Aluno alunoBd = alunoRepository.save(aluno);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(alunoBd);
     }
 
-    @GetMapping("/alunoFind")
+    @GetMapping("/buscar")
     public ResponseEntity<List<Aluno>> getAll() {
         List<Aluno> alunoList = alunoRepository.findAll();
         if (alunoList.isEmpty()) {
