@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProfessorDTO {
     // Atributos
+    private Long id;
     private String nome;
     private String cpf;
 }
