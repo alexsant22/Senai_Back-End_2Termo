@@ -78,9 +78,33 @@ async function buscarProdutos() {
                 Saldo: ${produto.saldo} | 
                 Saldo Mínimo: ${produto.saldoMinimo}
             `;
+      let btnDeletar = document.createElement("button");
+      btnDeletar.textContent = "Deletar";
+      btnDeletar.style.marginLeft = "10px";
+      btnDeletar.onclick = () => {
+        deletarProduto(produto.idProduto);
+      };
 
+      li.appendChild(btnDeletar);
       saida.appendChild(li);
     });
+  } catch (error) {
+    console.error("Erro ao buscar produtos:", error);
+    saida.innerHTML = "<li>Erro ao carregar produtos</li>";
+  }
+}
+
+// Função para deletar (DELETE)
+async function deletarProduto(id) {
+  try {
+    const response = await fetch(API_URL + `/deletar/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro HTTP: ${response.status}`);
+    }
+    buscarProdutos(); // Atualiza a lista
   } catch (error) {
     console.error("Erro ao buscar produtos:", error);
     saida.innerHTML = "<li>Erro ao carregar produtos</li>";
