@@ -1,0 +1,103 @@
+/* Estilos gerais */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f7f7;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100vh;
+    flex-direction: row;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #7e4c9e; /* Roxo claro */
+    margin-bottom: 20px;
+}
+
+/* Estilo para a seção de formulário */
+.formulario {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+/* Estilo para a seção de listar produtos */
+.lista {
+    text-align: center;
+    margin-top: 40px;
+}
+
+h2 {
+    font-size: 1.8rem;
+    color: #7e4c9e;
+}
+
+button {
+    background-color: #7e4c9e; /* Roxo claro */
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #6a3e88; /* Roxo mais escuro */
+}
+
+label {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+input {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #fff;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    border-color: #7e4c9e; /* Roxo claro */
+    outline: none;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+ul li {
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#listarProdutosBtn {
+    background-color: #4e2a84; /* Roxo mais escuro */
+}
+
+#listarProdutosBtn:hover {
+    background-color: #6a3e88;
+}
