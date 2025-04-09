@@ -1,14 +1,13 @@
-//Link API
+// Link API
 const API_URL = "http://localhost:8080/produtos";
 
-// Saida
+// Saída (somente na tela principal)
 let saida = document.getElementById("listaProdutos");
 
 // Função de adicionar (POST)
 async function salvarProduto(event) {
   event.preventDefault();
 
-  // Entradas do Produto
   const produto = {
     nome: document.getElementById("nome").value,
     valor: parseFloat(document.getElementById("valor").value),
@@ -16,34 +15,30 @@ async function salvarProduto(event) {
     saldoMinimo: parseInt(document.getElementById("saldoMinimo").value),
   };
 
-  console.log(produto);
-
-  // Fazendo jsnon do produto
   try {
     const response = await fetch(API_URL + "/adicionar", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // Inclua outros headers necessários como Authorization
       },
       body: JSON.stringify(produto),
     });
-    // Validando se o produto pode ser adicionado
+
     if (!response.ok) {
       throw new Error(`Erro HTTP: ${response.status}`);
     }
+
     alert(`Produto "${produto.nome}" adicionado com sucesso.`);
-    buscarProdutos(); // Atualiza a lista
+    buscarProdutos();
   } catch (error) {
     console.error("Erro ao cadastrar produto:", error);
     alert("Erro ao cadastrar produto. Por favor, tente novamente.");
   }
 }
 
-// Função de Buscar todos (GET)
+// Função de buscar (GET)
 async function buscarProdutos() {
   try {
-    // Mostrar carregando
     saida.innerHTML = "<li>Carregando...</li>";
 
     const response = await fetch(API_URL + "/buscar", {
@@ -58,9 +53,6 @@ async function buscarProdutos() {
     }
 
     const produtos = await response.json();
-    console.log(produtos);
-
-    // Limpar lista
     saida.innerHTML = "";
 
     if (produtos.length === 0) {
@@ -68,16 +60,16 @@ async function buscarProdutos() {
       return;
     }
 
-    // Adicionando a lista os produtos
     produtos.forEach((produto) => {
       const li = document.createElement("li");
-
       li.innerHTML = `
-                <strong>${produto.nome}</strong> | 
-                Valor: R$ ${produto.valor.toFixed(2)} | 
-                Saldo: ${produto.saldo} | 
-                Saldo Mínimo: ${produto.saldoMinimo}
-            `;
+        ID: ${produto.idProduto} |
+        <strong>${produto.nome}</strong> |
+        Valor: R$ ${produto.valor.toFixed(2)} |
+        Saldo: ${produto.saldo} |
+        Saldo Mínimo: ${produto.saldoMinimo}
+      `;
+
       let btnDeletar = document.createElement("button");
       btnDeletar.textContent = "Deletar";
       btnDeletar.style.marginLeft = "10px";
@@ -97,27 +89,66 @@ async function buscarProdutos() {
 // Função para deletar (DELETE)
 async function deletarProduto(id) {
   try {
-    const response = await fetch(API_URL + `/deletar/${id}`, {
+    const response = await fetch(`${API_URL}/deletar/${id}`, {
       method: "DELETE",
     });
 
     if (!response.ok) {
       throw new Error(`Erro HTTP: ${response.status}`);
     }
-    buscarProdutos(); // Atualiza a lista
+
+    buscarProdutos();
   } catch (error) {
-    console.error("Erro ao buscar produtos:", error);
-    saida.innerHTML = "<li>Erro ao carregar produtos</li>";
+    console.error("Erro ao deletar produto:", error);
   }
 }
 
-// DOM
-document.addEventListener("DOMContentLoaded", () => {
-  // Botão adicionar
-  let fomulario = document.getElementById("form-submit");
-  fomulario.addEventListener("submit", salvarProduto);
+// Função para atualizar produto (PUT)
+async function atualizarProduto(event) {
+  event.preventDefault();
 
-  // Botão listar todos
-  let listaProdutosBtn = document.getElementById("listarProdutosBtn");
-  listaProdutosBtn.addEventListener("click", buscarProdutos);
+  const id = document.getElementById("produtoId").value;
+  const produtoAtualizado = {
+    nome: document.getElementById("nome").value,
+    valor: parseFloat(document.getElementById("valor").value),
+    saldo: parseInt(document.getElementById("saldo").value),
+    saldoMinimo: parseInt(document.getElementById("saldoMinimo").value),
+  };
+
+  try {
+    const response = await fetch(`${API_URL}/atualizar/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(produtoAtualizado),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro HTTP: ${response.status}`);
+    }
+
+    alert(`Produto ID ${id} atualizado com sucesso.`);
+  } catch (error) {
+    console.error("Erro ao atualizar produto:", error);
+    alert("Erro ao atualizar produto. Verifique o ID e tente novamente.");
+  }
+}
+
+// DOM carregado
+document.addEventListener("DOMContentLoaded", () => {
+  const formCadastro = document.getElementById("form-submit");
+  if (formCadastro) {
+    formCadastro.addEventListener("submit", salvarProduto);
+  }
+
+  const listarBtn = document.getElementById("listarProdutosBtn");
+  if (listarBtn) {
+    listarBtn.addEventListener("click", buscarProdutos);
+  }
+
+  const formAtualizar = document.getElementById("form-atualizar");
+  if (formAtualizar) {
+    formAtualizar.addEventListener("submit", atualizarProduto);
+  }
 });
