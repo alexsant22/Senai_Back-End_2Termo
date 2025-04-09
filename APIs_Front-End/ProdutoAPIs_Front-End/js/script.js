@@ -30,6 +30,13 @@ async function salvarProduto(event) {
 
     alert(`Produto "${produto.nome}" adicionado com sucesso.`);
     buscarProdutos();
+
+    // Limpar os campos do formulário após adicionar o produto
+    document.getElementById("nome").value = '';
+    document.getElementById("valor").value = '';
+    document.getElementById("saldo").value = '';
+    document.getElementById("saldoMinimo").value = '';
+
   } catch (error) {
     console.error("Erro ao cadastrar produto:", error);
     alert("Erro ao cadastrar produto. Por favor, tente novamente.");
@@ -64,7 +71,7 @@ async function buscarProdutos() {
       const li = document.createElement("li");
       li.innerHTML = `
         ID: ${produto.idProduto} |
-        <strong>${produto.nome}</strong> |
+        Produto: ${produto.nome} |
         Valor: R$ ${produto.valor.toFixed(2)} |
         Saldo: ${produto.saldo} |
         Saldo Mínimo: ${produto.saldoMinimo}
@@ -76,8 +83,16 @@ async function buscarProdutos() {
       btnDeletar.onclick = () => {
         deletarProduto(produto.idProduto);
       };
-
       li.appendChild(btnDeletar);
+      
+      let btnAtt = document.createElement("button");
+      btnAtt.textContent = "Atualizar";
+      btnAtt.style.marginLeft = "10px";
+      btnAtt.onclick = () => {
+        window.location.href = `attProduto.html?id=${produto.idProduto}`;
+      };
+      li.appendChild(btnAtt);
+
       saida.appendChild(li);
     });
   } catch (error) {
@@ -103,38 +118,6 @@ async function deletarProduto(id) {
   }
 }
 
-// Função para atualizar produto (PUT)
-async function atualizarProduto(event) {
-  event.preventDefault();
-
-  const id = document.getElementById("produtoId").value;
-  const produtoAtualizado = {
-    nome: document.getElementById("nome").value,
-    valor: parseFloat(document.getElementById("valor").value),
-    saldo: parseInt(document.getElementById("saldo").value),
-    saldoMinimo: parseInt(document.getElementById("saldoMinimo").value),
-  };
-
-  try {
-    const response = await fetch(`${API_URL}/atualizar/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(produtoAtualizado),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Erro HTTP: ${response.status}`);
-    }
-
-    alert(`Produto ID ${id} atualizado com sucesso.`);
-  } catch (error) {
-    console.error("Erro ao atualizar produto:", error);
-    alert("Erro ao atualizar produto. Verifique o ID e tente novamente.");
-  }
-}
-
 // DOM carregado
 document.addEventListener("DOMContentLoaded", () => {
   const formCadastro = document.getElementById("form-submit");
@@ -145,10 +128,5 @@ document.addEventListener("DOMContentLoaded", () => {
   const listarBtn = document.getElementById("listarProdutosBtn");
   if (listarBtn) {
     listarBtn.addEventListener("click", buscarProdutos);
-  }
-
-  const formAtualizar = document.getElementById("form-atualizar");
-  if (formAtualizar) {
-    formAtualizar.addEventListener("submit", atualizarProduto);
   }
 });
